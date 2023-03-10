@@ -12,5 +12,5 @@ end
 
 function love.draw()
     Player:draw()
-    world:draw() --NICE ONE
+    world:draw() --NICE ONE MATE
 end
