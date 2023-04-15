@@ -564,15 +564,25 @@ end
 function World:queryCircleArea(x, y, radius, collision_class_names)
     if not collision_class_names then collision_class_names = {'All'} end
     if self.query_debug_drawing_enabled then table.insert(self.query_debug_draw, {type = 'circle', x = x, y = y, r = radius, frames = self.draw_query_for_n_frames}) end
-    
-    local colliders = self:_queryBoundingBox(x-radius, y-radius, x+radius, y+radius) 
+
+    local colliders = self:_queryBoundingBox(x-radius, y-radius, x+radius, y+radius)
     local outs = {}
     for _, collider in ipairs(colliders) do
         if self:collisionClassInCollisionClassesList(collider.collision_class, collision_class_names) then
             for _, fixture in ipairs(collider.body:getFixtures()) do
-                if self.wf.Math.polygon.getCircleIntersection(x, y, radius, {collider.body:getWorldPoints(fixture:getShape():getPoints())}) then
-                    table.insert(outs, collider)
-                    break
+                local does_this_have = fixture:getShape()
+                if does_this_have.getPoints then
+                    if self.wf.Math.polygon.getCircleIntersection(x, y, radius, {collider.body:getWorldPoints(fixture:getShape():getPoints())}) then
+                        table.insert(outs, collider)
+                        break
+                    end
+                else -- It's a Circle Collider, which the original library NEVER CHECKS FOR.
+                    local cx, cy = collider.body:getWorldPoints(fixture:getShape():getPoint())
+                    local cr = does_this_have:getRadius()
+                    if self.wf.Math.circle.getCircleIntersection(x, y, radius, cx, cy, cr) then
+                        table.insert(outs, collider)
+                        break
+                    end
                 end
             end
         end
