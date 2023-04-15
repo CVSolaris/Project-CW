@@ -6,6 +6,7 @@ require ("src/enemy")
 require ("src/upgrades")
 
 Player = {}
+Scores = {}
 
 
 function Player:load()
@@ -38,6 +39,7 @@ function Player:load()
     Player.firerate = 0.6
     Player.swingtime = 0.8
     Player.exp_threshold = 500 * (1.1 ^ Player.level)
+    Player.score = 0
     melee_cooldown = 0
     ranged_cooldown = 0
     attacking = false
@@ -70,6 +72,7 @@ function Player:load()
         Player.upgradepoints = 0
         Player.speed = 500
         Player.direction = "down"
+        Player.score = 0
         melee_cooldown = 0
         ranged_cooldown = 0
         Player.total_health = 200 * (1.2^ Player.level)
@@ -282,10 +285,10 @@ function Player:load()
                 --checks if the player collider touches an enemy
                 Player.health = Player.health - enemies[i].dmg
                 --deals the appropriate ammount of damage
-                print("Player's remaining health : " ,Player.health)
             end
             if Player.health <= 0 then
                 print("Player is dead")
+                print("Final score:", Player.score)
                 Player:reset()
                 wave_number = 1
                 --restarts the game when the player dies

@@ -11,6 +11,7 @@ function enemies:new(x, y)
     local speed = 0
     local dmg = 0
     local remains_time
+    local score
     if rare_chance <= 85 then
         -- 85% chance the enemy will be normal
         size = 40
@@ -20,6 +21,7 @@ function enemies:new(x, y)
         health = 160
         enemy_type = "enemy"
         remains_time = 2
+        score = 100
     elseif rare_chance > 85 then
         -- 15% chance the enemy will be a "heavy"
         size = 60
@@ -29,6 +31,7 @@ function enemies:new(x, y)
         health = 250
         enemy_type = "heavy_enemy"
         remains_time = 10
+        score = 170
     end
 
     local enemy = world:newCircleCollider(x, y, size)
@@ -74,6 +77,7 @@ function enemies:new(x, y)
     end
     ----------------------------------------------------------
     enemy.dead = false
+    enemy.score_give = score
     enemy.remains_timer = remains_time
     enemy.animation = enemy.default
     --initialises enemy frame to default sprite
@@ -179,6 +183,10 @@ function enemies:update(dt)
         end 
         if enemies[i].animation == enemies[i].death and enemies[i].remains_timer <= 0 then
             Player.totalexp = Player.totalexp + enemies[i].exp
+            --gives the player the exp dropped by the enemy
+            Player.score = Player.score + enemies[i].score_give
+            --increases the player's score depending on the enemy killed
+            print("Current score:", Player.score)
             --gives the player the appropriate exp
             enemies[i]:destroy()
             --destroys the collider
