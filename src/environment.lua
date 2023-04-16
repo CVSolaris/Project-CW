@@ -1,5 +1,5 @@
-anim8 = require ("libaries/anim8")
-wf = require ("libaries/windfield")
+anim8 = require ("libraries/anim8")
+wf = require ("libraries/windfield")
 require ("src/collision_classes")
 
 

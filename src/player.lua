@@ -1,13 +1,12 @@
-anim8 = require ("libaries/anim8")
-wf = require ("libaries/windfield")
+anim8 = require ("libraries/anim8")
+wf = require ("libraries/windfield")
 require ("src/collision_classes")
 require ("src/projectiles")
 require ("src/enemy")
 require ("src/upgrades")
 
 Player = {}
-Scores = {}
-
+--Scores = {}
 
 function Player:load()
     local x = love.graphics.getWidth() / 2 

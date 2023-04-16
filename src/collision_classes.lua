@@ -1,4 +1,4 @@
-require("libaries/windfield")
+require("libraries/windfield")
 
 collision_classes = {}
 

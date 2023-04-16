@@ -23,7 +23,7 @@ function firerate_up()
 end
 
 function bulletsize_up()
-    Projectiles.size = Projectiles.size + 5
+    Projectiles.size = Projectiles.size + 2
     --increases bullet size
     print("Player bullet size UP")
 end

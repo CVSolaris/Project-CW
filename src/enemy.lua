@@ -1,5 +1,5 @@
-anim8 = require ("libaries/anim8")
-wf = require ("libaries/windfield")
+anim8 = require ("libraries/anim8")
+wf = require ("libraries/windfield")
 require ("src/collision_classes")
 
 enemies = {}
@@ -83,7 +83,7 @@ function enemies:new(x, y)
     --initialises enemy frame to default sprite
     enemy.speed = speed
     --sets the speed of the enemy depending on its "type"
-    enemy.base_hp = health * (1.2^ wave_number)
+    enemy.base_hp = health * (1.3^ wave_number)
     --sets the enemy's health depending on wave count
     enemy.touch = false
     --initialises the enemy to be untouched
@@ -91,7 +91,7 @@ function enemies:new(x, y)
     --creates a new enemy collider
     enemy.exp = exp_give
     --sets how much exp the enemy gives to the player
-    enemy.dmg = dmg * (1.1^ Player.level)
+    enemy.dmg = dmg * (1.2^ Player.level)
     --sets how much dmg the enemy does to the player
     enemy:setCollisionClass(enemy_type)
 
