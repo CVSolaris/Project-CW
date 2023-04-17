@@ -13,7 +13,6 @@ function love.load()
     gamestate.registerEvents()
     gamestate.switch(menu)
     bar:load()
-    --starts the timer when starting the game
     world = wf.newWorld(0, 0, false)
     world:setQueryDebugDrawing(true)
     collision_classes:load()

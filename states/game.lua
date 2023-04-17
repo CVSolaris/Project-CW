@@ -1,7 +1,8 @@
 local game = {}
 
 function game:enter() --loads data for the game to run
-    spawn_timer = 2
+    spawn_timer = 4
+        --brief pause before enemies spawn
 end
 
 function game:update(dt)
