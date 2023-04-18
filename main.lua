@@ -8,8 +8,13 @@ require("src/bar")
 ---game states------------------------------
 game = require("states/game")
 menu = require("states/menu")
+pause = require("states/pause")
+scoretable = require("states/scoretable")
+gameover = require("states/gameover")
 
 function love.load()
+    love.mouse.setVisible(false)
+    --hides the user's mouse
     gamestate.registerEvents()
     gamestate.switch(menu)
     bar:load()
@@ -26,10 +31,9 @@ function love.load()
 end
 
 function love.keypressed(key)
-    if key == "backspace" then
-        gamestate.push(game)
-    end
-    if key == "return" and gamestate.current() ~= menu then
-        gamestate.pop()
+    if key == "escape" then
+        if gamestate.current() == game then
+            gamestate.push(pause)
+        end
     end
 end

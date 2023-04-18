@@ -1,4 +1,4 @@
-local menu = {}
+local gameover = {}
 local buttons = {}
 
 function newButton(text, unsel, fn)
@@ -19,36 +19,39 @@ function exit_game()
     --closes the program
 end
 
-function menu:enter() --loads menu data
+function gameover:enter() --loads menu data
     love.mouse.setVisible(true)
     --makes mouse visible
 
-    menu:destroyButtons()
+    for i = #buttons, 1, -1 do
+        table.remove(buttons, i)
+        --destroys all buttons in the table
+    end
     --destroys previous buttons
     font = love.graphics.newFont(32)
     --loads font size for the text in the buttons
-    evolve = love.graphics.newImage("sprites/evolve.png")
+    gameover = love.graphics.newImage("sprites/gameover.png")
     play = love.graphics.newImage("sprites/play.png")
     unsel_play = love.graphics.newImage("sprites/play_unsel.png")
-    highscores = love.graphics.newImage("sprites/highscores.png")
-    unsel_highscores = love.graphics.newImage("sprites/highscores_unsel.png")
+    leave = love.graphics.newImage("sprites/leave.png")
+    unsel_leave = love.graphics.newImage("sprites/leave_unsel.png")
     exit = love.graphics.newImage("sprites/exit.png")
     unsel_exit = love.graphics.newImage("sprites/exit_unsel.png")
 
     ---button creation----------------------------------------------------------------------
-    table.insert(buttons, newButton(play, unsel_play, function() gamestate.push(game) end))
+    table.insert(buttons, newButton(play, unsel_play, function() gamestate.pop() end))
     --starts the game
-    table.insert(buttons, newButton(highscores, unsel_highscores, function() gamestate.push(scoretable) end))
+    table.insert(buttons, newButton(leave, unsel_leave, function() gamestate.switch(menu) end))
     --loads the highscore table
     table.insert(buttons, newButton(exit, unsel_exit, function() exit_game() end))
     --closes the application
     ----------------------------------------------------------------------------------------
 end
 
-function menu:update(dt)
+function gameover:update(dt)
 end
 
-function menu:draw()
+function gameover:draw()
     local window_width = love.graphics.getWidth()
     local window_height = love.graphics.getHeight()
 
@@ -57,7 +60,7 @@ function menu:draw()
 
     local mousex,mousey = love.mouse.getPosition()
 
-    love.graphics.draw(evolve,(window_width / 2) - (evolve:getWidth() / 2), 100)
+    love.graphics.draw(gameover,(window_width / 2) - (gameover:getWidth() / 2), 100)
 
     for i = 1, #buttons do
         local button_h = play:getHeight()
@@ -102,11 +105,4 @@ function menu:draw()
     end
 end
 
-function menu:destroyButtons()
-    for i = #buttons, 1, -1 do
-        table.remove(buttons, i)
-        --destroys all buttons in the table
-    end
-end
-
-return menu
+return gameover

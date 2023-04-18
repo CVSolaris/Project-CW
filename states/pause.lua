@@ -1,4 +1,4 @@
-local menu = {}
+local pause = {}
 local buttons = {}
 
 function newButton(text, unsel, fn)
@@ -14,41 +14,34 @@ function newButton(text, unsel, fn)
     }
 end
 
-function exit_game()
-    love.event.quit(0)
-    --closes the program
-end
-
-function menu:enter() --loads menu data
+function pause:enter()
     love.mouse.setVisible(true)
-    --makes mouse visible
 
-    menu:destroyButtons()
+    pause:destroyButtons()
     --destroys previous buttons
     font = love.graphics.newFont(32)
     --loads font size for the text in the buttons
-    evolve = love.graphics.newImage("sprites/evolve.png")
-    play = love.graphics.newImage("sprites/play.png")
-    unsel_play = love.graphics.newImage("sprites/play_unsel.png")
-    highscores = love.graphics.newImage("sprites/highscores.png")
-    unsel_highscores = love.graphics.newImage("sprites/highscores_unsel.png")
-    exit = love.graphics.newImage("sprites/exit.png")
-    unsel_exit = love.graphics.newImage("sprites/exit_unsel.png")
+    paused = love.graphics.newImage("sprites/paused.png")
+    resume = love.graphics.newImage("sprites/resume.png")
+    unsel_resume = love.graphics.newImage("sprites/resume_unsel.png")
+    leave = love.graphics.newImage("sprites/leave.png")
+    unsel_leave = love.graphics.newImage("sprites/leave_unsel.png")
 
     ---button creation----------------------------------------------------------------------
-    table.insert(buttons, newButton(play, unsel_play, function() gamestate.push(game) end))
-    --starts the game
-    table.insert(buttons, newButton(highscores, unsel_highscores, function() gamestate.push(scoretable) end))
-    --loads the highscore table
-    table.insert(buttons, newButton(exit, unsel_exit, function() exit_game() end))
-    --closes the application
+    table.insert(buttons, newButton(resume, unsel_resume, function() love.mouse.setVisible(false) gamestate.pop() end))
+    --resumes the game / closes pause menu
+    table.insert(buttons, newButton(leave, unsel_leave, function() gamestate.switch(menu) end))
+    --returns to main menu
     ----------------------------------------------------------------------------------------
 end
 
-function menu:update(dt)
+function pause:update(dt)
 end
 
-function menu:draw()
+function pause:draw()
+
+    environment:draw()
+
     local window_width = love.graphics.getWidth()
     local window_height = love.graphics.getHeight()
 
@@ -57,7 +50,7 @@ function menu:draw()
 
     local mousex,mousey = love.mouse.getPosition()
 
-    love.graphics.draw(evolve,(window_width / 2) - (evolve:getWidth() / 2), 100)
+    love.graphics.draw(paused,(window_width / 2) - (paused:getWidth() / 2), 100)
 
     for i = 1, #buttons do
         local button_h = play:getHeight()
@@ -102,11 +95,18 @@ function menu:draw()
     end
 end
 
-function menu:destroyButtons()
+function pause:destroyButtons()
     for i = #buttons, 1, -1 do
         table.remove(buttons, i)
         --destroys all buttons in the table
     end
 end
 
-return menu
+function pause:keypressed(key)
+    if key == "escape" then
+        love.mouse.setVisible(false)
+        gamestate.pop()
+    end
+end
+
+return pause

@@ -1,8 +1,14 @@
 local game = {}
 
 function game:enter() --loads data for the game to run
+    love.mouse.setVisible(false)
+    --makes the mouse invisible
+    Player:reset()
+    --resets the player to the beginning
+    enemies:wipe()
+    --wipes all previously spawned enemies
     spawn_timer = 4
-        --brief pause before enemies spawn
+    --brief pause before enemies spawn
 end
 
 function game:update(dt)
@@ -28,6 +34,13 @@ function game:draw()
     --whichever is drawn last will always be on top
     --world:draw()
     bar:draw()
+    local mousex,mousey = love.mouse.getPosition()
+
+    love.graphics.push("all")
+    love.graphics.setColor(1,0,0,1)
+    love.graphics.circle("fill", mousex, mousey, 5)
+    --replacesmouse with cursor for the player to see
+    love.graphics.pop()
 end
 
 function wave_system(dt)
@@ -59,7 +72,7 @@ function wave_system(dt)
                 --produces a random location along the y-axis
                 enemies:new(x, y)
             end
-            spawn_timer = spawn_timer + 20
+            spawn_timer = spawn_timer + 25
             --restarts the timer
         end
     end

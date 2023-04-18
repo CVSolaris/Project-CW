@@ -6,7 +6,7 @@ require ("src/collision_classes")
 Projectiles = {}
 
 function Projectiles:load()
-    Projectiles.speed = 1500
+    Projectiles.speed = 1000
     Projectiles.damage = 40 * (1.2^ Player.level)
     Projectiles.size = 10
     Projectiles.lifespan = 0

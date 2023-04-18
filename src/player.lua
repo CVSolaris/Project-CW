@@ -4,9 +4,9 @@ require ("src/collision_classes")
 require ("src/projectiles")
 require ("src/enemy")
 require ("src/upgrades")
+require ("src/score")
 
 Player = {}
---Scores = {}
 
 function Player:load()
     local x = love.graphics.getWidth() / 2 
@@ -60,6 +60,7 @@ function Player:load()
     ----------------------------------------------------------------------
 
     function Player:reset()
+        wave_number = 1
         --changes player's stats to starting stats
         Player:setPosition(Player.spawn_x, Player.spawn_y)
         --moves the player back to the centre of the screen
@@ -288,9 +289,8 @@ function Player:load()
             if Player.health <= 0 then
                 print("Player is dead")
                 print("Final score:", Player.score)
-                Player:reset()
-                wave_number = 1
-                --restarts the game when the player dies
+                save_score(Player.score)--saves final score
+                gamestate.push(gameover)--loads game over screen
             end
         end
     end
@@ -411,6 +411,7 @@ function Player:load()
     end
 
     function Player:update(dt)
+        scores_update(dt)
         player_dir()
         Player:animations(dt)
         melee_cooldown = melee_cooldown - dt
