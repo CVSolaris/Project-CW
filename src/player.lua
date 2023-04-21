@@ -9,6 +9,7 @@ require ("src/score")
 Player = {}
 
 function Player:load()
+    final_score = 0
     local x = love.graphics.getWidth() / 2 
     local y = love.graphics.getHeight() / 2 
     --obtains the midpoint of the program window
@@ -60,6 +61,7 @@ function Player:load()
     ----------------------------------------------------------------------
 
     function Player:reset()
+        final_score = 0
         wave_number = 1
         --changes player's stats to starting stats
         Player:setPosition(Player.spawn_x, Player.spawn_y)
@@ -286,12 +288,12 @@ function Player:load()
                 Player.health = Player.health - enemies[i].dmg
                 --deals the appropriate ammount of damage
             end
-            if Player.health <= 0 then
-                print("Player is dead")
-                print("Final score:", Player.score)
-                save_score(Player.score)--saves final score
-                gamestate.push(gameover)--loads game over screen
-            end
+        end
+        if Player.health <= 0 then
+            print("Player is dead")
+            final_score = Player.score
+            gamestate.switch(gameover, final_score)--loads game over screen
+            --passes final score to gameover state to save
         end
     end
     
@@ -428,4 +430,3 @@ function Player:load()
         animation:draw(Player.sprite, x, y, 0, 3, 3, 32, 30)
     end
 end
-

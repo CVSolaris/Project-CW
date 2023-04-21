@@ -13,6 +13,10 @@ scoretable = require("states/scoretable")
 gameover = require("states/gameover")
 
 function love.load()
+
+    pixelfont = love.graphics.newFont("fonts/pixeboy.ttf", 60)
+    finalfont = love.graphics.newFont("fonts/pixeboy.ttf", 100)
+
     love.mouse.setVisible(false)
     --hides the user's mouse
     gamestate.registerEvents()

@@ -1,14 +1,26 @@
 local game = {}
 
-function game:enter() --loads data for the game to run
+local tutorial_timer
+
+
+function game:enter(previous) --loads data for the game to run
+    wave_number = 0
+    --initialises wave number
+    love.keyboard.setKeyRepeat(false)--lets player hold down keys
+
     love.mouse.setVisible(false)
     --makes the mouse invisible
     Player:reset()
     --resets the player to the beginning
     enemies:wipe()
     --wipes all previously spawned enemies
-    spawn_timer = 4
+    spawn_timer = 2
     --brief pause before enemies spawn
+    tutorial_timer = 5
+    --determines how long the controls stay on the screen
+    controls = love.graphics.newImage("sprites/controls.png")
+    controls:setFilter("nearest", "nearest")
+    --loads controls image
 end
 
 function game:update(dt)
@@ -21,33 +33,14 @@ function game:update(dt)
     wave_system(dt)
     Projectiles:update(dt)
     Projectiles:deload()
-end
 
-function game:draw()
-    environment:draw()
-    --draws the background
-    enemies:draw()
-    --draws the enemies
-    Player:draw()
-    --draws the player
-    Projectiles:draw()
-    --whichever is drawn last will always be on top
-    --world:draw()
-    bar:draw()
-    local mousex,mousey = love.mouse.getPosition()
-
-    love.graphics.push("all")
-    love.graphics.setColor(1,0,0,1)
-    love.graphics.circle("fill", mousex, mousey, 5)
-    --replacesmouse with cursor for the player to see
-    love.graphics.pop()
+    tutorial_timer = tutorial_timer - dt
+    --counts down timer
 end
 
 function wave_system(dt)
     local total_enemies = 0
     --initialised the enemy count to 0
-    wave_number = 1
-    --initialises wave count to 1
     spawn_timer = spawn_timer - dt
     --decrements the timer over time
     for _, enemies in ipairs(enemies) do
@@ -75,6 +68,38 @@ function wave_system(dt)
             spawn_timer = spawn_timer + 25
             --restarts the timer
         end
+    end
+end
+
+function game:draw()
+    environment:draw()
+    --draws the background
+    enemies:draw()
+    --draws the enemies
+    Player:draw()
+    --draws the player
+    Projectiles:draw()
+    --whichever is drawn last will always be on top
+    --world:draw()
+    bar:draw()
+    local mousex,mousey = love.mouse.getPosition()
+
+    love.graphics.push("all")
+    love.graphics.setColor(1,0,0,1)
+    love.graphics.circle("fill", mousex, mousey, 5)
+    --replacesmouse with cursor for the player to see
+    love.graphics.pop()
+
+    love.graphics.push("all")
+    love.graphics.setFont(pixelfont)
+    love.graphics.setColor(1,1,1,1)
+    love.graphics.print("lvl: "..Player.level, 450, 10) -- prints player's level
+    love.graphics.print("score: "..Player.score, 1350, 10) -- prints player's score
+    love.graphics.print("wave: "..wave_number, 200, 10) -- prints current wave no.
+    love.graphics.pop()
+
+    if tutorial_timer > 0 then
+        love.graphics.draw(controls, 50, 810, 0, 2, 2)--draws controls
     end
 end
 

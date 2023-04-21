@@ -7,5 +7,5 @@ end
 
 function save_score(score)
     love.filesystem.append("scores.lua", score.."\n")
-    --records the attained score
+    --records the attained score to "scores.lua" file
 end

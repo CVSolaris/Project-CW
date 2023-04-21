@@ -11,7 +11,7 @@ function newButton(text, unsel, fn)
         fn = fn
         --determines what the button will do...
         --...upon being pressed
-    }
+    }   
 end
 
 function pause:enter()
@@ -19,8 +19,7 @@ function pause:enter()
 
     pause:destroyButtons()
     --destroys previous buttons
-    font = love.graphics.newFont(32)
-    --loads font size for the text in the buttons
+
     paused = love.graphics.newImage("sprites/paused.png")
     resume = love.graphics.newImage("sprites/resume.png")
     unsel_resume = love.graphics.newImage("sprites/resume_unsel.png")
@@ -53,6 +52,8 @@ function pause:draw()
     love.graphics.draw(paused,(window_width / 2) - (paused:getWidth() / 2), 100)
 
     for i = 1, #buttons do
+        buttons.last = buttons.now
+
         local button_h = play:getHeight()
         local image = buttons[i].text
         local button_w = image:getWidth()--obtains width of each button
@@ -68,19 +69,12 @@ function pause:draw()
                         mousey > buttony and mousey < buttony + button_h
             --true when mouse is over button
 
-        local click = love.mouse.isDown(1)
-            --checks if user clicks
-
         if hovered then
             love.graphics.draw(buttons[i].text,
             (window_width / 2) - (button_w / 2),
             --centred on the screen
             (window_height / 2) - (total_button_height / 2) + spacing)
             --highlights the button when hovered over
-            if click then
-                --if button clicked then function assigned to button will run
-                buttons[i].fn()
-            end
         else
             love.graphics.draw(buttons[i].unsel,
             (window_width / 2) - (button_w / 2),
@@ -92,6 +86,39 @@ function pause:draw()
         spacing = spacing + (button_h + gap)
         --buttons will be drawn one after the other downwards
         
+    end
+end
+
+function pause:mousepressed(x, y, button)
+
+    local window_width = love.graphics.getWidth()
+    local window_height = love.graphics.getHeight()
+
+    local mousex,mousey = love.mouse.getPosition()
+
+    local spacing = 0
+    local gap = 70
+
+    for i = 1, #buttons do
+
+        local button_h = play:getHeight()
+        local image = buttons[i].text
+        local button_w = image:getWidth()
+
+        local total_button_height = (button_h + gap) * #buttons
+
+        local buttonx = (window_width / 2) - (button_w / 2)
+        local buttony = (window_height / 2) - (total_button_height / 2) + spacing  
+
+        local hovered = mousex > buttonx and mousex < buttonx + button_w and
+                        mousey > buttony and mousey < buttony + button_h
+            --true when mouse is over button
+        
+        if button == 1 and hovered then
+            buttons[i].fn()
+        end
+
+        spacing = spacing + (button_h + gap)
     end
 end
 
