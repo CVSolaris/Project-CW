@@ -35,7 +35,7 @@ function Player:load()
     Player.total_health = 200 * (1.2^ Player.level)
     Player.health = 200 * (1.2^ Player.level)
     Player.base_melee_dmg = 100
-    Player.range = 50
+    Player.range = 65
     Player.firerate = 0.6
     Player.swingtime = 0.8
     Player.exp_threshold = 500 * (1.1 ^ Player.level)
@@ -80,11 +80,11 @@ function Player:load()
         Player.total_health = 200 * (1.2^ Player.level)
         Player.health = 200 * (1.2^ Player.level)
         Player.base_melee_dmg = 100
-        Player.range = 50
+        Player.range = 65
         Player.firerate = 0.6
         Player.swingtime = 0.8
         Projectiles.speed = 1000
-        Projectiles.damage = 40 * (1.2^ Player.level)
+        Projectiles.damage = 40
         Projectiles.size = 10
     end
 
