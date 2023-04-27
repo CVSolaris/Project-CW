@@ -14,9 +14,11 @@ function scoretable:enter()
     scores = {}
 
     for lines in love.filesystem.lines("scores.lua") do
-        table.insert(scores, lines)
+        table.insert(scores, tonumber(lines))
         --inserts every saved score into the scores table
     end
+
+
 
     table.sort(scores, function(x, y) return x > y end)
     --sorts the table in descending order

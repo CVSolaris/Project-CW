@@ -16,7 +16,7 @@ function game:enter(previous) --loads data for the game to run
     --wipes all previously spawned enemies
     spawn_timer = 2
     --brief pause before enemies spawn
-    tutorial_timer = 5
+    tutorial_timer = 10
     --determines how long the controls stay on the screen
     controls = love.graphics.newImage("sprites/controls.png")
     controls:setFilter("nearest", "nearest")
