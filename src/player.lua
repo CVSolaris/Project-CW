@@ -84,7 +84,7 @@ function Player:load()
         Player.firerate = 0.6
         Player.swingtime = 0.8
         Projectiles.speed = 1000
-        Projectiles.damage = 40
+        Projectiles.damage = 60
         Projectiles.size = 10
     end
 
