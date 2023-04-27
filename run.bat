@@ -1,3 +1,3 @@
 @ECHO
 
-start "" "D:\.Coding\LOVE\lovec" .
+start "" "C:\Program Files\LOVE\lovec" .
