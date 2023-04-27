@@ -16,7 +16,7 @@ function game:enter(previous) --loads data for the game to run
     --wipes all previously spawned enemies
     spawn_timer = 2
     --brief pause before enemies spawn
-    tutorial_timer = 10
+    tutorial_timer = 20
     --determines how long the controls stay on the screen
     controls = love.graphics.newImage("sprites/controls.png")
     controls:setFilter("nearest", "nearest")
@@ -50,13 +50,13 @@ function wave_system(dt)
     if spawn_timer < 0 then
         spawn_timer = 0
     end
-    if total_enemies <= 20 then
-        --ensures that no more than 50 enemies are spawned at once
+    if total_enemies <= 20 and total_enemies + 5 < 20 then
+        --ensures that no more than 20 enemies are spawned at once
         if spawn_timer <= 0 then
             --checks if timer is finished
             wave_number = wave_number + 1
             --increments wave count
-            local total = love.math.random(5, 7)
+            local total = love.math.random(4, 6)
             for i = 1, total do
                 --repeats the creation of an enemy 5-7 times
                 local x = love.math.random(0, 1920)
@@ -65,7 +65,7 @@ function wave_system(dt)
                 --produces a random location along the y-axis
                 enemies:new(x, y)
             end
-            spawn_timer = spawn_timer + 25
+            spawn_timer = spawn_timer + 40
             --restarts the timer
         end
     end
