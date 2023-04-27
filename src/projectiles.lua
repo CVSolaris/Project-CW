@@ -7,7 +7,7 @@ Projectiles = {}
 
 function Projectiles:load()
     Projectiles.speed = 1000
-    Projectiles.damage = 40 * (1.2^ Player.level)
+    Projectiles.damage = 60
     Projectiles.size = 10
     Projectiles.lifespan = 0
     Projectiles.sprite = love.graphics.newImage("sprites/bullet.png")
